@@ -1,0 +1,31 @@
+DOCKER COMPOSE FILE:
+version: '3'
+services:
+  mysql:
+    image: ktritesh/mysql
+    build: /home/ubuntr/Fundoo
+    container_name: mysqldb
+    environment:
+    - MYSQL_DATABASE=users
+    - MYSQL_USER=admin
+    - MYSQL_PASSWORD=admin123
+    - MYSQL_ROOT_PASSWORD=admin123
+    volumes:
+    - mysqldata:/var/lib/mysql
+
+  backend:
+    image: backend_image
+    container_name: backendcontainer
+    links:
+    - mysql
+
+  frontend:
+    image: frontend_image
+    container_name: frontendcontainer
+    links:
+    - backend
+    ports:
+    - 80:80
+
+volumes:
+  mysqldata:
